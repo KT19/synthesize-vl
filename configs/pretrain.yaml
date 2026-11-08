@@ -1,0 +1,31 @@
+architecture_config: teacher_architecture.yaml
+
+data:
+  seed: 2026
+  batch_size: 8
+  microbatch_size: 4
+
+  visual_loss_share: 0.5
+
+  # Within VM sampling, 75% use execution supervision and 25% use full next-byte prediction
+  vm_execute_probability: 0.75
+
+optimizer:
+  muon_lr: 0.001
+  adamw_lr: 0.0003
+  weight_decay: 0.0001
+  max_grad_norm: 1.0
+  total_steps: 10000
+  warmup_steps: 200
+
+runtime:
+  devices: 2
+  max_updates: 10000
+  log_every: 100
+  evaluate_every: 200
+  save_every: 1000
+
+  checkpoint_root: checkpoints/pretrain
+
+  resume_from: null
+  evaluate_ood_at_end: true

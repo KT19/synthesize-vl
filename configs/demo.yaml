@@ -1,0 +1,14 @@
+checkpoint_root: checkpoints/grpo
+sft_data_yaml: configs/sft_data.yaml
+architecture_config: configs/student_architecture.yaml
+
+seed: 1234
+
+default_difficulty: medium
+show_work: True
+max_new_tokens: 512
+
+save_dir: runs/demo
+
+# Launth the system's default image viewer
+open_image: True

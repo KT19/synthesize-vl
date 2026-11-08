@@ -1,0 +1,28 @@
+[project]
+name = "synthesize_vl"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "flax>=0.12.8",
+    "jax[cuda13]>=0.10.2",
+    "optax>=0.2.8",
+    "orbax-checkpoint>=0.12.7",
+    "pillow>=12.3.0",
+    "pytest>=9.1.1",
+    "pyyaml>=6.0.3",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.17.0",
+]
+
+[build-system]
+requires=["uv_build>=0.12.12,<0.13"]
+build-backend="uv_build"
+
+[tool.uv.build-backend]
+module-name="synthesize_vl"
+module-root=""

@@ -1,0 +1,21 @@
+hidden_size: 896
+num_heads: 14
+intermediate_size: 3584
+
+recurrent_steps: 2
+core_layers: 4
+residual_type: mhc
+num_streams: 2
+sinkhorn_iterations: 20
+
+position_mode: rope
+use_attention_gate: true
+
+core_attention: hybrid
+local_window: 64
+global_text_tokens: 2
+
+max_text_length: 1024
+image_size: 64
+patch_size: 8
+vocab_size: 260

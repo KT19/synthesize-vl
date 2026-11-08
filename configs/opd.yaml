@@ -1,0 +1,49 @@
+student_checkpoint_root: checkpoints/student
+teacher_checkpoint_root: checkpoints/teacher
+
+teacher_architecture_config: configs/teacher_architecture.yaml
+student_architecture_config: configs/student_architecture.yaml
+
+data:
+  seed: 2401
+  batch_size: 8
+  max_text_length: 1024
+
+  text_probability: 0.5
+  cot_probability: 0.75
+
+  difficulty_weights:
+    easy: 0.30
+    medium: 0.30
+    hard: 0.40
+
+optimizer:
+  muon_lr: 0.0001
+  adamw_lr: 0.00003
+  weight_decay: 0.0001
+  max_grad_norm: 1.0
+  total_steps: 500
+  warmup_steps: 50
+
+rollout:
+  seed: 2407
+  context_length: 512
+  new_tokens: 256
+  sampling_temperature: 1.0
+  distillation_temperature: 1.0
+  visual_loss_share: 0.5
+
+runtime:
+  devices: 2
+  max_updates: 500
+  log_every: 5
+  evaluate_every: 100
+  save_every: 100
+  checkpoint_root: checkpoints/opd
+  resume_from: null
+
+evaluation:
+  seed: 2026
+  examples_per_group: 10
+  exact_examples_per_level: 10
+  max_new_tokens: 512

@@ -1,0 +1,14 @@
+pretrained_checkpoint_root: checkpoints/pretrain
+
+data:
+  seed: 2026
+  batch_size: 8
+  max_text_length: 1024
+
+  text_probability: 0.5
+  cot_probability: 0.75
+
+  difficulty_weights:
+    easy: 0.50
+    medium: 0.30
+    hard: 0.20

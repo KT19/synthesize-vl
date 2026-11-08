@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="600" viewBox="0 0 1160 600" role="img" aria-labelledby="flow-title flow-description">
+  <title id="flow-title">Synthesize-VL training pipeline</title>
+  <desc id="flow-description">Pretraining with four recurrent passes initializes student SFT with two passes. Student weights initialize a teacher with four passes and the student used for on-policy distillation. The frozen teacher supplies distillation targets. GRPO refines the distilled student with exact final-answer rewards from an arithmetic oracle. Solid arrows carry model weights; dashed arrows carry training signals.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M1 1 L7 4 L1 7" fill="none" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .heading { fill: #0f172a; font-size: 27px; font-weight: 700; }
+      .subtitle { fill: #64748b; font-size: 15px; }
+      .stage-number { fill: #ffffff; font-size: 12px; font-weight: 700; letter-spacing: 1px; }
+      .stage-title { fill: #ffffff; font-size: 24px; font-weight: 700; }
+      .stage-copy { fill: #ffffff; font-size: 14px; opacity: 0.92; }
+      .stage-depth { fill: #ffffff; font-size: 13px; font-weight: 600; }
+      .connector { fill: none; stroke: #64748b; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow); }
+      .signal { stroke-dasharray: 6 6; }
+      .edge-label { fill: #475569; font-size: 13px; }
+      .legend { fill: #475569; font-size: 14px; }
+    </style>
+  </defs>
+
+  <rect x="0.5" y="0.5" width="1159" height="599" rx="24" fill="#ffffff" stroke="#e2e8f0"/>
+  <text class="heading" x="32" y="43">Synthesize-VL</text>
+  <text class="subtitle" x="32" y="69">From programmatic data to a multimodal student</text>
+
+  <!-- Parameter transfer follows the main student path and the teacher branch. -->
+  <path class="connector" d="M244 420 H292"/>
+  <text class="edge-label" x="268" y="401" text-anchor="middle">Weights</text>
+  <path class="connector" d="M516 420 H644"/>
+  <text class="edge-label" x="580" y="401" text-anchor="middle">Student weights</text>
+  <path class="connector" d="M868 420 H916"/>
+  <text class="edge-label" x="892" y="401" text-anchor="middle">Policy</text>
+  <path class="connector" d="M404 308 V172 H468"/>
+  <text class="edge-label" x="388" y="247" text-anchor="end">Copy weights</text>
+
+  <!-- Supervision is distinct from initialization of the trainable student. -->
+  <path class="connector signal" d="M692 172 H756 V308"/>
+  <text class="edge-label" x="772" y="247">Frozen teacher</text>
+  <path class="connector signal" d="M1028 228 V308"/>
+  <text class="edge-label" x="1044" y="273">0 / 1 reward</text>
+
+  <g id="pretraining" transform="translate(32 320)">
+    <rect width="200" height="200" rx="16" fill="#4338ca"/>
+    <rect x="20" y="20" width="36" height="25" rx="7" fill="#ffffff" opacity="0.17"/>
+    <text class="stage-number" x="38" y="37" text-anchor="middle">01</text>
+    <text class="stage-title" x="20" y="81">Pretraining</text>
+    <text class="stage-copy" x="20" y="113">VM execution + traces</text>
+    <text class="stage-copy" x="20" y="137">Structured visual tasks</text>
+    <path d="M20 157 H180" stroke="#ffffff" stroke-opacity="0.28"/>
+    <text class="stage-depth" x="20" y="181">4 recurrent passes</text>
+  </g>
+
+  <g id="student-sft" transform="translate(304 320)">
+    <rect width="200" height="200" rx="16" fill="#0369a1"/>
+    <rect x="20" y="20" width="36" height="25" rx="7" fill="#ffffff" opacity="0.17"/>
+    <text class="stage-number" x="38" y="37" text-anchor="middle">02</text>
+    <text class="stage-title" x="20" y="81">Student SFT</text>
+    <text class="stage-copy" x="20" y="113">Text + visual arithmetic</text>
+    <text class="stage-copy" x="20" y="137">Verified responses</text>
+    <path d="M20 157 H180" stroke="#ffffff" stroke-opacity="0.28"/>
+    <text class="stage-depth" x="20" y="181">2 recurrent passes</text>
+  </g>
+
+  <g id="teacher-sft" transform="translate(480 72)">
+    <rect width="200" height="200" rx="16" fill="#7e22ce"/>
+    <rect x="20" y="20" width="36" height="25" rx="7" fill="#ffffff" opacity="0.17"/>
+    <text class="stage-number" x="38" y="37" text-anchor="middle">03</text>
+    <text class="stage-title" x="20" y="81">Teacher SFT</text>
+    <text class="stage-copy" x="20" y="113">Further arithmetic SFT</text>
+    <text class="stage-copy" x="20" y="137">Initialized from student</text>
+    <path d="M20 157 H180" stroke="#ffffff" stroke-opacity="0.28"/>
+    <text class="stage-depth" x="20" y="181">4 recurrent passes</text>
+  </g>
+
+  <g id="opd" transform="translate(656 320)">
+    <rect width="200" height="200" rx="16" fill="#c2410c"/>
+    <rect x="20" y="20" width="36" height="25" rx="7" fill="#ffffff" opacity="0.17"/>
+    <text class="stage-number" x="38" y="37" text-anchor="middle">04</text>
+    <text class="stage-title" x="20" y="81">OPD</text>
+    <text class="stage-copy" x="20" y="113">Student rollouts</text>
+    <text class="stage-copy" x="20" y="137">Frozen teacher targets</text>
+    <path d="M20 157 H180" stroke="#ffffff" stroke-opacity="0.28"/>
+    <text class="stage-depth" x="20" y="181">2 recurrent passes</text>
+  </g>
+
+  <g id="grpo" transform="translate(928 320)">
+    <rect width="200" height="200" rx="16" fill="#047857"/>
+    <rect x="20" y="20" width="36" height="25" rx="7" fill="#ffffff" opacity="0.17"/>
+    <text class="stage-number" x="38" y="37" text-anchor="middle">05</text>
+    <text class="stage-title" x="20" y="81">GRPO</text>
+    <text class="stage-copy" x="20" y="113">Grouped responses</text>
+    <text class="stage-copy" x="20" y="137">Exact-answer rewards</text>
+    <path d="M20 157 H180" stroke="#ffffff" stroke-opacity="0.28"/>
+    <text class="stage-depth" x="20" y="181">2 recurrent passes</text>
+  </g>
+
+  <g id="oracle">
+    <rect x="928" y="116" width="200" height="100" rx="14" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="1028" y="153" text-anchor="middle" fill="#334155" font-size="17" font-weight="600">Arithmetic oracle</text>
+    <text x="1028" y="179" text-anchor="middle" fill="#64748b" font-size="13">Programmatic verification</text>
+  </g>
+
+  <path class="connector" d="M32 563 H72"/>
+  <text class="legend" x="86" y="568">Model weights</text>
+  <path class="connector signal" d="M264 563 H304"/>
+  <text class="legend" x="318" y="568">Training signal</text>
+</svg>
