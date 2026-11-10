@@ -6,6 +6,8 @@ The model combines byte-level text and image patches in a shared recurrent Trans
 
 The repository contains seeded data generators, YAML architecture and training configurations, training and evaluation runners, a CLI inference demo, and [benchmark results](#evaluation-results) for text and visual arithmetic.
 
+![Synthesize-VL overview: synthetic data generation, recurrent multimodal Transformer with mHC residual routing, five-stage training pipeline, and worked inference examples.](docs/synthesize_vl_overview.gif)
+
 ## Text-only arithmetic
 
 Evaluate a fully parenthesized integer expression containing addition, subtraction, multiplication, and exact division. Training responses either show the calculation steps or give only the final answer.
